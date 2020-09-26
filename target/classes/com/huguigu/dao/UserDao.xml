@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huguigu.dao.UserDao">
+	<select id="userlongin" parameterType="User" resultType="User">
+		select * from  user  where uname = #{uname} and parss = #{parss}
+	</select>
+
+	<insert id="adduser" parameterType="User">
+        insert into user
+		values (null,#{uname},#{parss})
+	</insert>
+
+	<select id="queryuser" resultType="User">
+		select * from  user
+	</select>
+</mapper>

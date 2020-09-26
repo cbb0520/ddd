@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+    <!-- 自动扫描  需要spring管理的包 -->
+    <context:component-scan base-package="com.huguigu">
+        <!-- 指定不扫描得注解-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 初始化数据源对象；DruidDataSource -->
+    <bean id="druiddataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!-- 与数据库建立连接的基本信息 -->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/1905ja03?characterEncoding=utf-8"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value=""></property>
+        <!-- 关于数据库连接池的基本信息 -->
+        <property name="maxActive" value="50"></property>
+        <property name="initialSize" value="5"></property>
+        <property name="minIdle" value="1"></property>
+        <property name="maxWait" value="60000"></property>
+    </bean>
+
+    <!-- 配置SqlSessionFactory的bean-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="druiddataSource"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>
+
+    <!-- 配置mybatis接口的代理对象bean  -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.huguigu.dao"></property>
+    </bean>
+
+</beans>
